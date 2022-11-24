@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+<script>
+
+function getluckynumber()
+{
+var sum=0;
+var dob=parseInt(document.getElementById("dob").value+document.getElementById("mob").value+document.getElementById("yob").value);
+while(dob)
+{
+sum+=(dob%10);
+dob=Math.floor(dob/10);
+if(!dob)
+if(sum>9)
+{dob=sum;sum=0;}
+}
+document.getElementById("result").innerHTML=" ~ "+sum+" ~ ";
+}
+
+function getweekdayofbirth()
+{
+var wdob=0;
+var dob=parseInt(document.getElementById("dob").value);
+var mob=parseInt(document.getElementById("mob").value);
+var yob=parseInt(document.getElementById("yob").value);
+
+myDate=new Date(yob,mob-1,dob);  
+wdob = myDate.getDay();
+
+if(wdob==0)
+document.getElementById("result").innerHTML=" ~ Sunday ~ ";
+if(wdob==1)
+document.getElementById("result").innerHTML=" ~ Monday ~ ";
+if(wdob==2)
+document.getElementById("result").innerHTML=" ~ Tuesday ~ ";
+if(wdob==3)
+document.getElementById("result").innerHTML=" ~ Wednesday ~ ";
+if(wdob==4)
+document.getElementById("result").innerHTML=" ~ Thursday ~ ";
+if(wdob==5)
+document.getElementById("result").innerHTML=" ~ Friday ~ ";
+if(wdob==6)
+document.getElementById("result").innerHTML=" ~ Saturday ~ ";
+}
+
+</script>
+
+<h1 align=center style="background-color: lightblue;">astrozz</h1>
+<p align=center><i>astrology by microzz (v0.3)</i></p>
+
+</head>
+
+<body bgcolor=lightgreen>
+
+<h2 align=center style="background-color: gold;">select date of birth</h2>
+
+<p align=center style="background-color: lime;">
+<select id=dob><option>day</option></select>
+<select id=mob><option>month</option></select>
+<select id=yob><option>year</option></select>
+</p>
+
+<p align=center>
+<input type=button onclick=getweekdayofbirth() value="calculate week day of birth !!">
+</p>
+<p align=center>
+<input type=button onclick=getluckynumber() value="calculate lucky number !!">
+</p>
+
+<h2>
+<p align=center style="background-color: gold;">
+<label id=result></label>
+</p>
+</h2>
+
+<script>
+for(var i=1;i<=31;i++)
+document.getElementById("dob").innerHTML+="<option value="+i+">"+i+"</option>";
+for(var i=1;i<=12;i++)
+document.getElementById("mob").innerHTML+="<option value="+i+">"+i+"</option>";
+var yyyy = new Date();
+for(var i=parseInt(yyyy.getFullYear())+1;i>=parseInt(yyyy.getFullYear())-99;i--)
+document.getElementById("yob").innerHTML+="<option value="+i+">"+i+"</option>";
+</script>
+
+</body>
+
+<foot>
+<p align=center style="background-color: lightblue;">visit <b>microzz</b> @ http://microzz.blogspot.in</p>
+</foot>
+
+</html>
