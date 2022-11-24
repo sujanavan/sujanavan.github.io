@@ -1,0 +1,545 @@
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+<script>
+
+function ghadiyalu()
+{
+var wdob=0;
+var dob=parseInt(document.getElementById("dob").value);
+var mob=parseInt(document.getElementById("mob").value);
+var yob=parseInt(document.getElementById("yob").value);
+var time=parseInt(document.getElementById("hr").value)*100+parseInt(document.getElementById("min").value);
+
+document.getElementById("durmuhurtham").innerHTML="";
+document.getElementById("yamagandakalam").innerHTML="";
+document.getElementById("gulikakalam").innerHTML="";
+document.getElementById("rahukalam").innerHTML="";
+
+myDate=new Date(yob,mob-1,dob);  
+wdob = myDate.getDay();
+
+
+var ghadiyalu_start_time = [
+0,
+130,
+300,
+430,
+600,
+730,
+900,
+1030,
+1200,
+1330,
+1500,
+1630,
+1800,
+1930,
+2100,
+2230
+];
+
+var ghadiyalu_end_time = [
+130,
+300,
+430,
+600,
+730,
+900,
+1030,
+1200,
+1330,
+1500,
+1630,
+1800,
+1930,
+2100,
+2230,
+2400
+];
+
+var ghadiyalu = [
+0,1,2,3,4,5,6
+];
+
+ghadiyalu[0] = [
+"virodham",
+"laabam",
+"udyogam",
+"rogam",
+"udyogam",
+"laabam",
+"visham",
+"amrutham",
+"shubham",
+"dhanam",
+"amrutham",
+"visham",
+"shubham",
+"amrutham",
+"jvaram",
+"rogam"
+];
+
+
+ghadiyalu[1] = [
+"rogam",
+"amrutham",
+"visham",
+"jvaram",
+"amrutham",
+"visham",
+"udyogam",
+"laabam",
+"rogam",
+"amrutham",
+"aadaayam",
+"dhanam",
+"rogam",
+"laabam",
+"udyogam",
+"dhanam"
+];
+
+ghadiyalu[2] = [
+"rogam",
+"laabam",
+"udyogam",
+"dhanam",
+"rogam",
+"udyogam",
+"jvaram",
+"laabam",
+"amrutham",
+"udyogam",
+"visham",
+"laabam",
+"jvaram",
+"udyogam",
+"virodham",
+"laabam"
+];
+
+ghadiyalu[3] = [
+"shubham",
+"laabam",
+"dhanam",
+"laabam",
+"visham",
+"amrutham",
+"shubham",
+"udyogam",
+"rogam",
+"shubham",
+"dhanam",
+"amrutham",
+"laabam",
+"rogam",
+"visham",
+"udyogam"
+];
+
+ghadiyalu[4] = [
+"udyogam",
+"jvaram",
+"laabam",
+"udyogam",
+"udyogam",
+"visham",
+"jvaram",
+"laabam",
+"amrutham",
+"visham",
+"virodham",
+"jvaram",
+"sukham",
+"rogam",
+"virodham",
+"laabam"
+];
+
+ghadiyalu[5] = [
+"shubham",
+"dhanam",
+"amrurham",
+"visham",
+"rogam",
+"jvaram",
+"amrurham",
+"virodham",
+"laabam",
+"sukham",
+"dhanam",
+"amrurham",
+"amrurham",
+"jvaram",
+"virodham",
+"laabam"
+];
+
+ghadiyalu[6] = [
+"virodham",
+"rogam",
+"amrutham",
+"laabam",
+"visham",
+"amrutham",
+"jvaram",
+"udyogam",
+"shubham",
+"laabam",
+"dhanam",
+"laabam",
+"visham",
+"udyogam",
+"shubham",
+"amrutham"
+];
+
+
+var rahukalam_start_time = [
+1630,		730,		1500,		1200,		1330,		1030,		900
+];
+
+var rahukalam_end_time = [
+1800,		900,		1630,		1330,		1500,		1200,		1030
+];
+
+var gulikakalam_start_time = [
+1500,		1330,		1400,		1030,		900,		730,		600
+];
+
+var gulikakalam_end_time = [
+1630,		1500,		1330,		1230,		1030,		900,		730
+];
+
+var yamagandakalam1_start_time = [
+1200,		1030,		900,		730,		600,		1500,		1330
+];
+
+var yamagandakalam1_end_time = [
+1330,		1200,		1030,		900,		730,		1630,		1500
+];
+
+var yamagandakalam2_start_time = [
+1800,		300,		130,		0,		2230,		2100,		1930
+];
+
+var yamagandakalam2_end_time = [
+1930,		430,		330,		130,		2400,		2230,		2100
+];
+
+var durmuhurtham1_start_time = [
+1624,		1224,		824,		1136,		1000,		824,		600
+];
+
+var durmuhurtham1_end_time = [
+1712,		1312,		912,		1312,		1048,		912,		648
+];
+
+var durmuhurtham2_start_time = [
+1624,		1428,		2248,		1136,		1448,		1224,		736
+];
+
+var durmuhurtham2_end_time = [
+1712,		1536,		2336,		1312,		1536,		1312,		824
+];
+
+ 
+if(wdob==0)
+{
+document.getElementById("result").innerHTML=" ~ sunday ~ ";
+
+for(var i=0;i<16;i++)
+if(ghadiyalu_start_time[i]<=time && time<=ghadiyalu_end_time[i])
+document.getElementById("ghadiyalu").innerHTML=ghadiyalu[wdob][i];
+
+if(rahukalam_start_time[wdob]<=time && time<=rahukalam_end_time[wdob])
+document.getElementById("rahukalam").innerHTML="rahu kaalam";
+
+if(gulikakalam_start_time[wdob]<=time && time<=gulikakalam_end_time[wdob])
+document.getElementById("gulikakalam").innerHTML="gulika kaalam";
+
+if(yamagandakalam1_start_time[wdob]<=time && time<=yamagandakalam1_end_time[wdob])
+document.getElementById("yamagandakalam").innerHTML="yamaganda kaalam";
+
+if(yamagandakalam2_start_time[wdob]<=time && time<=yamagandakalam2_end_time[wdob])
+document.getElementById("yamagandakalam").innerHTML="yamaganda kaalam";
+
+if(durmuhurtham1_start_time[wdob]<=time && time<=durmuhurtham1_end_time[wdob])
+document.getElementById("durmuhurtham").innerHTML="durmuhurtha kaalam";
+
+if(durmuhurtham2_start_time[wdob]<=time && time<=durmuhurtham2_end_time[wdob])
+document.getElementById("durmuhurtham").innerHTML="durmuhurtha kaalam";
+
+}
+
+if(wdob==1)
+{
+document.getElementById("result").innerHTML=" ~ monday ~ ";
+
+
+for(var i=0;i<16;i++)
+if(ghadiyalu_start_time[i]<=time && time<=ghadiyalu_end_time[i])
+document.getElementById("ghadiyalu").innerHTML=ghadiyalu[wdob][i];
+
+if(rahukalam_start_time[wdob]<=time && time<=rahukalam_end_time[wdob])
+document.getElementById("rahukalam").innerHTML="rahu kaalam";
+
+if(gulikakalam_start_time[wdob]<=time && time<=gulikakalam_end_time[wdob])
+document.getElementById("gulikakalam").innerHTML="gulika kaalam";
+
+if(yamagandakalam1_start_time[wdob]<=time && time<=yamagandakalam1_end_time[wdob])
+document.getElementById("yamagandakalam").innerHTML="yamaganda kaalam";
+
+if(yamagandakalam2_start_time[wdob]<=time && time<=yamagandakalam2_end_time[wdob])
+document.getElementById("yamagandakalam").innerHTML="yamaganda kaalam";
+
+if(durmuhurtham1_start_time[wdob]<=time && time<=durmuhurtham1_end_time[wdob])
+document.getElementById("durmuhurtham").innerHTML="durmuhurtha kaalam";
+
+if(durmuhurtham2_start_time[wdob]<=time && time<=durmuhurtham2_end_time[wdob])
+document.getElementById("durmuhurtham").innerHTML="durmuhurtha kaalam";
+
+}
+
+if(wdob==2)
+{
+document.getElementById("result").innerHTML=" ~ tuesday ~ ";
+
+
+for(var i=0;i<16;i++)
+if(ghadiyalu_start_time[i]<=time && time<=ghadiyalu_end_time[i])
+document.getElementById("ghadiyalu").innerHTML=ghadiyalu[wdob][i];
+
+if(rahukalam_start_time[wdob]<=time && time<=rahukalam_end_time[wdob])
+document.getElementById("rahukalam").innerHTML="rahu kaalam";
+
+if(gulikakalam_start_time[wdob]<=time && time<=gulikakalam_end_time[wdob])
+document.getElementById("gulikakalam").innerHTML="gulika kaalam";
+
+if(yamagandakalam1_start_time[wdob]<=time && time<=yamagandakalam1_end_time[wdob])
+document.getElementById("yamagandakalam").innerHTML="yamaganda kaalam";
+
+if(yamagandakalam2_start_time[wdob]<=time && time<=yamagandakalam2_end_time[wdob])
+document.getElementById("yamagandakalam").innerHTML="yamaganda kaalam";
+
+if(durmuhurtham1_start_time[wdob]<=time && time<=durmuhurtham1_end_time[wdob])
+document.getElementById("durmuhurtham").innerHTML="durmuhurtha kaalam";
+
+if(durmuhurtham2_start_time[wdob]<=time && time<=durmuhurtham2_end_time[wdob])
+document.getElementById("durmuhurtham").innerHTML="durmuhurtha kaalam";
+
+}
+
+if(wdob==3)
+{
+document.getElementById("result").innerHTML=" ~ wednesday ~ ";
+
+
+for(var i=0;i<16;i++)
+if(ghadiyalu_start_time[i]<=time && time<=ghadiyalu_end_time[i])
+document.getElementById("ghadiyalu").innerHTML=ghadiyalu[wdob][i];
+
+if(rahukalam_start_time[wdob]<=time && time<=rahukalam_end_time[wdob])
+document.getElementById("rahukalam").innerHTML="rahu kaalam";
+
+if(gulikakalam_start_time[wdob]<=time && time<=gulikakalam_end_time[wdob])
+document.getElementById("gulikakalam").innerHTML="gulika kaalam";
+
+if(yamagandakalam1_start_time[wdob]<=time && time<=yamagandakalam1_end_time[wdob])
+document.getElementById("yamagandakalam").innerHTML="yamaganda kaalam";
+
+if(yamagandakalam2_start_time[wdob]<=time && time<=yamagandakalam2_end_time[wdob])
+document.getElementById("yamagandakalam").innerHTML="yamaganda kaalam";
+
+if(durmuhurtham1_start_time[wdob]<=time && time<=durmuhurtham1_end_time[wdob])
+document.getElementById("durmuhurtham").innerHTML="durmuhurtha kaalam";
+
+if(durmuhurtham2_start_time[wdob]<=time && time<=durmuhurtham2_end_time[wdob])
+document.getElementById("durmuhurtham").innerHTML="durmuhurtha kaalam";
+
+}
+
+if(wdob==4)
+{
+document.getElementById("result").innerHTML=" ~ thursday ~ ";
+
+
+for(var i=0;i<16;i++)
+if(ghadiyalu_start_time[i]<=time && time<=ghadiyalu_end_time[i])
+document.getElementById("ghadiyalu").innerHTML=ghadiyalu[wdob][i];
+
+if(rahukalam_start_time[wdob]<=time && time<=rahukalam_end_time[wdob])
+document.getElementById("rahukalam").innerHTML="rahu kaalam";
+
+if(gulikakalam_start_time[wdob]<=time && time<=gulikakalam_end_time[wdob])
+document.getElementById("gulikakalam").innerHTML="gulika kaalam";
+
+if(yamagandakalam1_start_time[wdob]<=time && time<=yamagandakalam1_end_time[wdob])
+document.getElementById("yamagandakalam").innerHTML="yamaganda kaalam";
+
+if(yamagandakalam2_start_time[wdob]<=time && time<=yamagandakalam2_end_time[wdob])
+document.getElementById("yamagandakalam").innerHTML="yamaganda kaalam";
+
+if(durmuhurtham1_start_time[wdob]<=time && time<=durmuhurtham1_end_time[wdob])
+document.getElementById("durmuhurtham").innerHTML="durmuhurtha kaalam";
+
+if(durmuhurtham2_start_time[wdob]<=time && time<=durmuhurtham2_end_time[wdob])
+document.getElementById("durmuhurtham").innerHTML="durmuhurtha kaalam";
+
+}
+
+if(wdob==5)
+{
+document.getElementById("result").innerHTML=" ~ friday ~ ";
+
+
+for(var i=0;i<16;i++)
+if(ghadiyalu_start_time[i]<=time && time<=ghadiyalu_end_time[i])
+document.getElementById("ghadiyalu").innerHTML=ghadiyalu[wdob][i];
+
+if(rahukalam_start_time[wdob]<=time && time<=rahukalam_end_time[wdob])
+document.getElementById("rahukalam").innerHTML="rahu kaalam";
+
+if(gulikakalam_start_time[wdob]<=time && time<=gulikakalam_end_time[wdob])
+document.getElementById("gulikakalam").innerHTML="gulika kaalam";
+
+if(yamagandakalam1_start_time[wdob]<=time && time<=yamagandakalam1_end_time[wdob])
+document.getElementById("yamagandakalam").innerHTML="yamaganda kaalam";
+
+if(yamagandakalam2_start_time[wdob]<=time && time<=yamagandakalam2_end_time[wdob])
+document.getElementById("yamagandakalam").innerHTML="yamaganda kaalam";
+
+if(durmuhurtham1_start_time[wdob]<=time && time<=durmuhurtham1_end_time[wdob])
+document.getElementById("durmuhurtham").innerHTML="durmuhurtha kaalam";
+
+if(durmuhurtham2_start_time[wdob]<=time && time<=durmuhurtham2_end_time[wdob])
+document.getElementById("durmuhurtham").innerHTML="durmuhurtha kaalam";
+
+}
+
+if(wdob==6)
+{
+document.getElementById("result").innerHTML=" ~ saturday ~ ";
+
+
+for(var i=0;i<16;i++)
+if(ghadiyalu_start_time[i]<=time && time<=ghadiyalu_end_time[i])
+document.getElementById("ghadiyalu").innerHTML=ghadiyalu[wdob][i];
+
+if(rahukalam_start_time[wdob]<=time && time<=rahukalam_end_time[wdob])
+document.getElementById("rahukalam").innerHTML="rahu kaalam";
+
+if(gulikakalam_start_time[wdob]<=time && time<=gulikakalam_end_time[wdob])
+document.getElementById("gulikakalam").innerHTML="gulika kaalam";
+
+if(yamagandakalam1_start_time[wdob]<=time && time<=yamagandakalam1_end_time[wdob])
+document.getElementById("yamagandakalam").innerHTML="yamaganda kaalam";
+
+if(yamagandakalam2_start_time[wdob]<=time && time<=yamagandakalam2_end_time[wdob])
+document.getElementById("yamagandakalam").innerHTML="yamaganda kaalam";
+
+if(durmuhurtham1_start_time[wdob]<=time && time<=durmuhurtham1_end_time[wdob])
+document.getElementById("durmuhurtham").innerHTML="durmuhurtha kaalam";
+
+if(durmuhurtham2_start_time[wdob]<=time && time<=durmuhurtham2_end_time[wdob])
+document.getElementById("durmuhurtham").innerHTML="durmuhurtha kaalam";
+
+}
+
+}
+
+</script>
+
+<h1 align=center style="background-color: lightblue;">astrozz</h1>
+<p align=center><i>astrology by microzz (v0.3)</i></p>
+
+</head>
+
+<body bgcolor=lightgreen>
+
+<h2 align=center style="background-color: gold;">select date & time</h2>
+
+<p align=center style="background-color: lime;">
+<select id=dob><option>day</option></select>
+<select id=mob><option>month</option></select>
+<select id=yob><option>year</option></select>
+</p>
+
+<p align=center style="background-color: lime;">
+<select id=hr><option>hours</option></select>
+<select id=min><option>minutes</option></select>
+</p>
+
+<p align=center>
+<input type=button onclick=ghadiyalu() value="calculate ghadiyalu !!">
+</p>
+
+<h3>
+<p align=center style="background-color: lightblue;">
+<label id=result></label>
+</p>
+</h3>
+
+<h2>
+<p align=center style="background-color: gold;">
+<label id=ghadiyalu></label>
+</p>
+</h2>
+
+<h3>
+<p align=center style="background-color: red; color:white;">
+<label id=gulikakalam></label>
+</p>
+</h3>
+
+<h3>
+<p align=center style="background-color: red; color:white;">
+<label id=rahukalam></label>
+</p>
+</h3>
+
+<h3>
+<p align=center style="background-color: red; color:white;">
+<label id=yamagandakalam></label>
+</p>
+</h3>
+
+<h3>
+<p align=center style="background-color: red;color:white;">
+<label id=durmuhurtham></label>
+</p>
+</h3>
+
+
+<script>
+for(var i=1;i<=31;i++)
+document.getElementById("dob").innerHTML+="<option value="+i+">"+i+"</option>";
+for(var i=1;i<=12;i++)
+document.getElementById("mob").innerHTML+="<option value="+i+">"+i+"</option>";
+var yyyy = new Date();
+for(var i=parseInt(yyyy.getFullYear())+1;i>=parseInt(yyyy.getFullYear())-99;i--)
+document.getElementById("yob").innerHTML+="<option value="+i+">"+i+"</option>";
+</script>
+
+<script>
+for(var i=0;i<=23;i++)
+document.getElementById("hr").innerHTML+="<option value="+i+">"+i+" hr</option>";
+for(var i=0;i<=59;i++)
+document.getElementById("min").innerHTML+="<option value="+i+">"+i+" min</option>";
+</script>
+
+</body>
+
+<foot>
+<p align=center style="background-color: lightblue;">visit <b>microzz</b> @ http://microzz.blogspot.in</p>
+</foot>
+
+</html>
