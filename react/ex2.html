@@ -1,0 +1,18 @@
+<script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<div id="root"></div>
+
+<script type="text/babel">
+
+function Car()
+{
+return <h1>Hi I am a {props.color} Car !!</h1>;
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+root.render(<Car color="RED"/>);
+
+</script>
