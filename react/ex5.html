@@ -7,7 +7,7 @@
 <script type="text/babel">
 
 function Car(props) {
-  return <li>Hi, I am a { props.color } Car !</li>;
+  return <h3>Hi, I am a { props.color } Car !</h3>;
 }
 
 function Garage() {
@@ -18,10 +18,12 @@ function Garage() {
   ];
   return (    
   <>
-      <h1>Who is in the Garage?</h1>
-      <ul>
-      { cars.map ( (car) => <Car key={car.id} color={car.color} /> ) }
-      </ul>
+      <h2>Who is in the Garage?</h2>
+      {
+      	cars.map (
+      		(car) => <Car key={car.id} color={car.color} />
+      	)
+      }      
     </>
   );
 }
