@@ -20,7 +20,7 @@ function Garage() {
   <>
       <h1>Who is in the Garage?</h1>
       <ul>
-      {colors.map((color) => <Car color={color} />)}
+      { colors.map ( (color) => <Car key={color.id} color={color} /> ) }
       </ul>
     </>
   );
