@@ -15,7 +15,11 @@ function Garage() {
   return (    
   <>
       <h2>Who is in the Garage ? </h2>
-      { colors.map( (color) => <Car color={color} /> ) }      
+      { 
+        colors.map( 
+          (color) => <Car color={color} />
+        )
+      }      
     </>
   );
 }
