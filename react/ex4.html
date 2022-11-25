@@ -7,17 +7,15 @@
 <script type="text/babel">
 
 function Car(props) {
-  return <li>Hi, I am a { props.color } Car !</li>;
+  return <h3>Hi, I am a { props.color } Car !</h3>;
 }
 
 function Garage() {
   const colors = ["RED", "BLUE", "GREEN"];
   return (    
   <>
-      <h1>Who is in the Garage ? </h1>
-      <ul>
-      { colors.map( (color) => <Car color={color} /> ) }
-      </ul>
+      <h2>Who is in the Garage ? </h2>
+      { colors.map( (color) => <Car color={color} /> ) }      
     </>
   );
 }
