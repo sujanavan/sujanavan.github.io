@@ -11,7 +11,7 @@ function Car(props) {
 }
 
 function Garage() {
-  const colors = [
+  const cars = [
     { id : 1 , color : "RED" } ,
     { id : 2 , color : "GREEN" } ,
     { id : 3 , color : "BLUE" }
@@ -20,7 +20,7 @@ function Garage() {
   <>
       <h1>Who is in the Garage?</h1>
       <ul>
-      { colors.map ( (color) => <Car key={color.id} color={color} /> ) }
+      { cars.map ( (car) => <Car key={car.id} color={car.color} /> ) }
       </ul>
     </>
   );
