@@ -7,13 +7,13 @@
 <script type="text/babel">
 
 function Car(props) {
-  return <h2>I am a {props.color} Car!</h2>;
+  return <h3>Hi, I am a {props.color} Car !!</h3>;
 }
 
 function Garage() {
   return (
     <>
-	    <h1>Who is in the Garage ?</h1>
+	    <h2>Who is in the Garage ?</h2>
 	    <Car color="RED" />
     </>
   );
@@ -23,4 +23,3 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<Garage />);
 
 </script>
-
