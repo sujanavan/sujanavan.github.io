@@ -1,0 +1,50 @@
+<script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<div id="root"></div>
+
+<script type="text/babel">
+
+function Car(props) {
+  return <li onClick={props.greet}>Hi, I am a { props.color } Car !!</li>;
+}
+
+function Garage(props) {
+  const greet = () => {
+    alert("Welcome to my garage");
+  }
+  const cars = [
+    { id : 1 , color : "RED" } ,
+    { id : 2 , color : "GREEN" } ,
+    { id : 3 , color : "BLUE" }
+  ];
+  if(props.isEmpty) {
+  return <h2>Garage is Empty</h2>;
+  }  
+  else {
+  return (    
+  <>
+      <h2 onClick={greet}>Who is in the Garage?</h2>
+      <ul>
+      {
+      	cars.map (
+      		(car) => <Car key={car.id} color={car.color} greet={greet} />
+      	)
+      }
+      </ul>
+      
+      <form>
+      Enter your name:
+      <input type="text" />
+   	 </form>
+    
+    </>
+  );
+  }
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Garage isEmpty={false} />);
+
+</script>
