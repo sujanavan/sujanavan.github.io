@@ -7,9 +7,9 @@ var ca=Number(localStorage.getItem('a'));
 var cb=Number(localStorage.getItem('b'));
 var cc=Number(localStorage.getItem('c'));
 
-if(ca>cb && cb>cc) document.write(a+b+c);
-else if(cb>ca && ca>cc) document.write(b+a+c);
-else if(cc>ca && ca>cb) document.write(c+a+b);
+if(ca>cb>cc) document.write(a+b+c);
+else if(cb>ca>cc) document.write(b+a+c);
+else if(cc>ca>cb) document.write(c+a+b);
 else document.write(a+b+c);
 
 document.write("<br><br>Click the buttons multiple times and Refresh this page");
