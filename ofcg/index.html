@@ -1,29 +1,96 @@
-OFCG: Online FCG<br>
+<big><b>OFCG: Online Flutter Code Generator</b></big><br>
+<small><i>* This work is only a technical expression of the project idea</i></small>
 
-<pre id=final_code>
-  Final code will be here
+<ul>
+<li>Step-1: Click <b> + Property </b> button </li>
+<li>Step-2: Click <b> + Widget </b> button </li>
+<li>Step-3: Type some characters in text field </li>
+<li>Step-4: Click on <b>Generate Flutter Code</b> button </li>
+<li>Step-5: Open < Dart Pad > to test { Code } </li>
+</ul>
+
+
+<pre id=final_code style="border:1px solid green">
+  Generated code will appear here !!
 </pre>
+
+<p id=dart_pad align=right><button><a style="text-decoration: none" href="https://dartpad.dev/?id" target=_blank> Open < Dart Pad > to test { Code } </a></button></p>
+
+StatelessWidget >> <b>MaterialApp</b> - <button onclick=add_prop() >+ Property</button> 
+
+<div id=build  style="border:1px solid red">
+
+</div>
+
+<br><br>
+<button onclick=gen_code() style="color:blue"> <b>Generate Flutter Code<b> </button>
+
+<br><br>
+
+
+
+
+
+
+<script>
+document.getElementById('dart_pad').hidden = true;
+
+function add_prop(){
+alert("Currently only HOME property can be added");
+document.getElementById("build").innerHTML="home: <label id=add_code><button onclick=add_code()>+ Code</button> <button onclick=add_widget()>+ Widget</button> <button onclick=remove_prop()>- Property</button></label>";
+}
+
+
+function add_code(){
+alert("Currently only for test purpose");
+document.getElementById("add_code").innerHTML="<input type=text>  <button onclick=add_prop()>- Code</button> <button onclick=remove_prop()>- Property</button>";
+}
+
+function add_widget(){
+alert("Currently only TEXT widget can be added");
+document.getElementById("add_code").innerHTML="Text('<input type=text id=add_text placeholder=Type_Some_Characters>') <button onclick=add_prop()>- Widget</button> <button onclick=remove_prop()>- Property</button>";
+}
+
+function gen_code(){
+document.getElementById("final_code").innerHTML=document.getElementById("code_1").innerHTML+document.getElementById("add_text").value+document.getElementById("code_2").innerHTML;
+document.getElementById('dart_pad').hidden = false;
+}
+
+function remove_prop(){
+document.getElementById("build").innerHTML=null;
+}
+
+</script>
+
+
+
+
+
+
+
+
+
+
+<!-- CODE REFERENCES -->
+
+
 
 <pre hidden id=code_1>
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const OnlineFCG());
+  runApp(const OFCG());
 }
 
-class OnlineFCG extends StatelessWidget {
-  const OnlineFCG({Key? key}) : super(key: key);
+class OFCG extends StatelessWidget {
+  const OFCG({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: Text('Hello \n World'));
+    return const MaterialApp(home: Text('</pre>
+
+
+<pre hidden id=code_2>'));
   }
 }  
 </pre>
-
-<script>
-var code=document.getElementById("code_1").innerHTML;
-alert(code);
-  var final_code=document.getElementById("final_code").innerHTML;
-  final_code+="zzzz";
-</script>
