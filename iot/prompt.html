@@ -1,0 +1,88 @@
+i have a HTML file in which if there is a Nano(XNO) transaction value 0.000001 XNO sent to the wallet "nano_1yiqeaskez38key1iicnaxg5jrubrhk8btezgtcicq1cxy9ue55q6ok1zi93" then there is a Light Bulb OFF image "L-0.jpeg" which should be replaced by Light Bulb ON image "L-1.jpeg" for 1 second if the transaction value sent to the wallet is 0.000002 XNO then light bulb should be on for 2 seconds and so on
+
+To achieve the functionality you're describing, you would need to use JavaScript along with HTML to handle real-time updates and image replacements based on the transaction value. Since HTML alone can't handle this kind of logic, JavaScript will be essential for interacting with the blockchain and updating the image dynamically.
+
+Here’s a step-by-step approach:
+
+HTML Setup: Create an HTML file with an img element to display the light bulb image.
+
+JavaScript Setup: Implement JavaScript to check for transactions and update the image based on the value.
+
+Transaction Monitoring: You'll need to interact with the Nano network or use a third-party service to monitor transactions. Since direct interaction with the Nano network from client-side JavaScript might be complex, consider using a server-side script or a service API that you can query from your JavaScript.
+
+Here’s an example of how you might set this up. This example assumes you have access to a service or API that can provide transaction data.
+
+HTML
+html
+Copy code
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Light Bulb Status</title>
+</head>
+<body>
+    <img id="lightBulb" src="L-0.jpeg" alt="Light Bulb" style="width: 100px; height: 100px;">
+    <script src="script.js"></script>
+</body>
+</html>
+JavaScript (script.js)
+javascript
+Copy code
+// Replace with the actual endpoint of the API you are using to get transaction data
+const TRANSACTION_API_URL = 'https://example.com/api/transactions';
+
+const walletAddress = 'nano_1yiqeaskez38key1iicnaxg5jrubrhk8btezgtcicq1cxy9ue55q6ok1zi93';
+
+function checkTransactions() {
+    fetch(TRANSACTION_API_URL)
+        .then(response => response.json())
+        .then(data => {
+            const transactions = data.transactions;
+            transactions.forEach(transaction => {
+                if (transaction.wallet === walletAddress) {
+                    handleTransaction(transaction.amount);
+                }
+            });
+        })
+        .catch(error => console.error('Error fetching transactions:', error));
+}
+
+function handleTransaction(amount) {
+    let duration = 0;
+
+    if (amount === 0.000001) {
+        duration = 1000; // 1 second
+    } else if (amount === 0.000002) {
+        duration = 2000; // 2 seconds
+    } else {
+        // Add more conditions as needed
+        return;
+    }
+
+    const lightBulb = document.getElementById('lightBulb');
+    lightBulb.src = 'L-1.jpeg'; // Turn light bulb ON
+
+    setTimeout(() => {
+        lightBulb.src = 'L-0.jpeg'; // Turn light bulb OFF
+    }, duration);
+}
+
+// Polling the API every 10 seconds
+setInterval(checkTransactions, 10000);
+Notes
+Transaction Monitoring:
+
+Replace TRANSACTION_API_URL with the URL of the service or API you are using to get transaction data. This URL should provide you with real-time or recent transactions.
+Implement proper error handling and data validation.
+Polling Interval:
+
+Adjust the polling interval based on how frequently you want to check for new transactions.
+Security:
+
+If you are handling sensitive data or interacting with financial transactions, ensure that your implementation is secure and follows best practices for handling sensitive information.
+Server-Side Implementation:
+
+If querying the Nano network directly from the client side is not feasible, consider implementing a server-side script that fetches the transactions and provides them to your client-side JavaScript.
+By following this approach, you can dynamically update the light bulb image based on Nano transactions sent to a specific wallet address.
