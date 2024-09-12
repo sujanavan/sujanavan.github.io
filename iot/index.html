@@ -1,5 +1,74 @@
-light bulb
+  <center>
 
-<img src=L-0.jpeg>
+<table>
+<tr>
 
-<img src=L-1.jpeg>
+<td align=center width=300 valign=top>
+<img id="lightBulb" src="L-0.jpeg" alt="Light Bulb" height="200">
+</td>
+
+<td>
+<a href="nano:nano_1yiqeaskez38key1iicnaxg5jrubrhk8btezgtcicq1cxy9ue55q6ok1zi93">
+<img src=xno.png height=500>
+</a>
+</td>
+
+    
+
+</tr>
+</table>
+
+
+
+
+<script>
+/*
+// Replace with the actual endpoint of the API you are using to get transaction data
+const url = "https://node.somenano.com/proxy/?action=account_history&account=nano_1b99kusp5eyur56z7off3gq78waadbnp87jnwhn89br8ujje89hgtswqsmj1&count=1";
+*/
+
+/*
+const walletAddress = 'nano_1yiqeaskez38key1iicnaxg5jrubrhk8btezgtcicq1cxy9ue55q6ok1zi93';
+
+function checkTransactions() {
+    fetch(TRANSACTION_API_URL)
+        .then(response => response.json())
+        .then(data => {
+            const transactions = data.transactions;
+            transactions.forEach(transaction => {
+                if (transaction.wallet === walletAddress) {
+                    handleTransaction(transaction.amount);
+                }
+            });
+        })
+        .catch(error => console.error('Error fetching transactions:', error));
+}
+*/
+
+function onoff() {
+
+    let duration = 2000;
+/*
+    if (amount === 0.000001) {
+        duration = 1000; // 1 second
+    } else if (amount === 0.000002) {
+        duration = 2000; // 2 seconds
+    } else {
+        // Add more conditions as needed
+        return;
+    }
+*/
+    const lightBulb = document.getElementById('lightBulb');
+    lightBulb.src = 'L-1.jpeg'; // Turn light bulb ON
+lightBulb.height = '275';
+
+    setTimeout(() => {
+        lightBulb.src = 'L-0.jpeg'; // Turn light bulb OFF
+lightBulb.height = '200';
+    }, duration);
+}
+
+// Polling the API every 2 seconds
+setInterval(onoff, 5000);
+
+</script>
