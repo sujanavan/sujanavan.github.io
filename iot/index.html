@@ -69,6 +69,65 @@ lightBulb.height = '200';
 }
 
 // Polling the API every 2 seconds
-setInterval(onoff, 5000);
+//setInterval(onoff, 5000);
 
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h1>Nano Blockchain Transactions</h1>
+    <table id="transactions-table">
+        <thead>
+            <tr>
+                <th>Hash</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Amount</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Transaction details will be inserted here -->
+        </tbody>
+    </table>
+
+    <script>
+        async function fetchTransactions() {
+            try {
+                // Replace with actual Nano API endpoint
+                const response = await fetch('https://node.somenano.com/proxy/?action=account_history&account=nano_1b99kusp5eyur56z7off3gq78waadbnp87jnwhn89br8ujje89hgtswqsmj1&count=100');
+                const data = await response.json();
+
+                const transactions = data.transactions; // Adjust based on actual API response structure
+                const tableBody = document.querySelector('#transactions-table tbody');
+
+                transactions.forEach(tx => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${tx.hash}</td>
+                        <td>${tx.from}</td>
+                        <td>${tx.to}</td>
+                        <td>${tx.amount}</td>
+                        <td>${tx.timestamp}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error fetching transactions:', error);
+            }
+        }
+
+        // Fetch and display transactions on page load
+        fetchTransactions();
+    </script>
+
