@@ -1,3 +1,273 @@
-CIPA
-Cognitive Image Preference Authentication
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CIPA - Cognitive Image Preference Authentication</title>
 
+<style>
+body{
+    font-family:Arial,sans-serif;
+    max-width:1000px;
+    margin:auto;
+    padding:20px;
+    background:#f5f7fa;
+}
+
+h1{
+    color:#1e3a8a;
+}
+
+.section{
+    background:white;
+    padding:20px;
+    margin-top:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+
+.grid img{
+    width:100%;
+    height:180px;
+    object-fit:cover;
+    border-radius:10px;
+    cursor:pointer;
+    border:4px solid transparent;
+}
+
+.selected{
+    border:4px solid limegreen !important;
+}
+
+button{
+    padding:10px 20px;
+    margin:5px;
+    cursor:pointer;
+}
+
+.columns{
+    display:flex;
+    gap:20px;
+}
+
+.column{
+    flex:1;
+}
+
+.column img{
+    width:100%;
+    margin-bottom:8px;
+    border-radius:8px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>CIPA</h1>
+<h3>Cognitive Image Preference Authentication</h3>
+
+<div class="section">
+
+<h2>How It Works</h2>
+
+<ol>
+<li>User registers on a secure computer.</li>
+<li>User selects one preferred image from 9 images.</li>
+<li>The image ID is stored securely.</li>
+<li>On an untrusted computer, the same 9 images are shuffled.</li>
+<li>User never clicks the secret image.</li>
+<li>User only indicates the COLUMN containing it.</li>
+<li>After three rounds, the system identifies the image.</li>
+</ol>
+
+</div>
+
+<div class="section">
+
+<h2>Step 1 - Registration (Secure Computer)</h2>
+
+<div id="registerGrid" class="grid"></div>
+
+<p id="regMsg"></p>
+
+</div>
+
+<div class="section">
+
+<h2>Step 2 - Authentication (Untrusted Computer)</h2>
+
+<button onclick="startAuth()">Start Authentication</button>
+
+<div id="authArea"></div>
+
+<p id="authMsg"></p>
+
+</div>
+
+<script>
+
+const images = [
+"https://picsum.photos/id/1015/300/200",
+"https://picsum.photos/id/1025/300/200",
+"https://picsum.photos/id/1035/300/200",
+"https://picsum.photos/id/1045/300/200",
+"https://picsum.photos/id/1055/300/200",
+"https://picsum.photos/id/1065/300/200",
+"https://picsum.photos/id/1075/300/200",
+"https://picsum.photos/id/1085/300/200",
+"https://picsum.photos/id/1095/300/200"
+];
+
+let selectedImage = null;
+
+const registerGrid = document.getElementById("registerGrid");
+
+images.forEach((img,index)=>{
+
+    let image=document.createElement("img");
+    image.src=img;
+
+    image.onclick=()=>{
+        document.querySelectorAll("#registerGrid img")
+        .forEach(i=>i.classList.remove("selected"));
+
+        image.classList.add("selected");
+
+        selectedImage=index;
+
+        localStorage.setItem("cipa_secret",index);
+
+        document.getElementById("regMsg").innerHTML=
+        "Registered Image: "+(index+1);
+    };
+
+    registerGrid.appendChild(image);
+});
+
+let currentOrder=[];
+let round=1;
+
+function shuffle(arr){
+
+for(let i=arr.length-1;i>0;i--){
+
+let j=Math.floor(Math.random()*(i+1));
+
+[arr[i],arr[j]]=[arr[j],arr[i]];
+}
+
+return arr;
+}
+
+function startAuth(){
+
+round=1;
+
+currentOrder=[0,1,2,3,4,5,6,7,8];
+
+renderRound();
+}
+
+function renderRound(){
+
+let area=document.getElementById("authArea");
+
+area.innerHTML="";
+
+let columns=[[],[],[]];
+
+currentOrder.forEach((img,i)=>{
+columns[i%3].push(img);
+});
+
+let wrapper=document.createElement("div");
+wrapper.className="columns";
+
+columns.forEach((col,colIndex)=>{
+
+let c=document.createElement("div");
+c.className="column";
+
+let title=document.createElement("button");
+title.innerText="Column "+(colIndex+1);
+
+title.onclick=()=>{
+nextRound(colIndex);
+};
+
+c.appendChild(title);
+
+col.forEach(imgIndex=>{
+
+let image=document.createElement("img");
+image.src=images[imgIndex];
+
+c.appendChild(image);
+
+});
+
+wrapper.appendChild(c);
+
+});
+
+area.appendChild(wrapper);
+
+document.getElementById("authMsg").innerHTML=
+"Round "+round+" : Select the column containing your secret image.";
+}
+
+function nextRound(chosenColumn){
+
+let columns=[[],[],[]];
+
+currentOrder.forEach((img,i)=>{
+columns[i%3].push(img);
+});
+
+let selectedCol=columns[chosenColumn];
+
+let newOrder=[];
+
+newOrder.push(...columns[(chosenColumn+1)%3]);
+newOrder.push(...selectedCol);
+newOrder.push(...columns[(chosenColumn+2)%3]);
+
+currentOrder=newOrder;
+
+round++;
+
+if(round<=3){
+
+renderRound();
+
+}else{
+
+let identified=currentOrder[4];
+
+let actual=parseInt(
+localStorage.getItem("cipa_secret")
+);
+
+if(identified===actual){
+
+document.getElementById("authMsg").innerHTML=
+"✅ Authentication Successful";
+
+}else{
+
+document.getElementById("authMsg").innerHTML=
+"❌ Authentication Failed";
+}
+}
+}
+
+</script>
+
+</body>
+</html>
