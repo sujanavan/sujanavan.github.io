@@ -138,7 +138,11 @@
             <div class="card">
                 <h1>CIPA</h1>
                 <h3 class="subtitle">Cognitive Image Preference Authentication</h3>
-                <div class="info">Step 1: User registers on a secure computer. <br>Step 2: User selects one secret image from 9 images. <br>Step 3: On an untrusted computer, all images are shuffled. <br>Step 4: User never clicks the secret image directly. <br>Step 5: Using a 9-card style procedure, the system identifies the secret image. </div>
+                <div class="info">Step 1: User registers on a secure computer. <br>
+                    Step 2: User selects one secret image from 9 images. <br>
+                    Step 3: On an untrusted computer, all images are shuffled. <br>
+                    Step 4: User never clicks the secret image directly. <br>
+                    Step 5: Using a 9-card style procedure, the system identifies the secret image. </div>
                 <br>
                 <button onclick="showScreen('register')">Start Registration</button>
             </div>
@@ -173,7 +177,16 @@
             </div>
         </div>
         <script>
-            const images = ["https://etc.usf.edu/clipart/20800/20887/circlecornet_20887_mth.gif", "https://etc.usf.edu/clipart/51500/51527/51527_snare_drum_mth.gif", "https://etc.usf.edu/clipart/1600/1607/triangle_1_mth.gif", "https://etc.usf.edu/clipart/50300/50325/50325_apple_mth.gif", "https://etc.usf.edu/clipart/51700/51700/51700_eiffel_tower_mth.gif", "https://etc.usf.edu/clipart/63300/63309/63309_hen_mth.gif", "https://etc.usf.edu/clipart/15000/15036/archerfish_15036_mth.gif", "https://etc.usf.edu/clipart/70600/70658/70658_265_rs-040_o_mth.gif", "https://etc.usf.edu/clipart/33600/33654/nclock-01-00_33654_mth.gif"];
+            const images = [
+                "https://etc.usf.edu/clipart/20800/20887/circlecornet_20887_mth.gif", 
+                "https://etc.usf.edu/clipart/51500/51527/51527_snare_drum_mth.gif", 
+                "https://etc.usf.edu/clipart/1600/1607/triangle_1_mth.gif", 
+                "https://etc.usf.edu/clipart/50300/50325/50325_apple_mth.gif", 
+                "https://etc.usf.edu/clipart/51700/51700/51700_eiffel_tower_mth.gif", 
+                "https://etc.usf.edu/clipart/63300/63309/63309_hen_mth.gif", 
+                "https://etc.usf.edu/clipart/15000/15036/archerfish_15036_mth.gif", 
+                "https://etc.usf.edu/clipart/70600/70658/70658_265_rs-040_o_mth.gif", 
+                "https://etc.usf.edu/clipart/33600/33654/nclock-01-00_33654_mth.gif"];
 
             function showScreen(id) {
                 document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
