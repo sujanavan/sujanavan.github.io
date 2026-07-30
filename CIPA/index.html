@@ -1,58 +1,110 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>CIPA - Cognitive Image Preference Authentication</title>
 
 <style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
 body{
-    font-family:Arial,sans-serif;
-    max-width:1000px;
-    margin:auto;
-    padding:20px;
-    background:#f5f7fa;
+    background:linear-gradient(135deg,#0f172a,#1e293b,#111827);
+    color:white;
+    overflow:hidden;
+}
+
+.screen{
+    display:none;
+    width:100vw;
+    height:100vh;
+    padding:30px;
+}
+
+.active{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
 }
 
 h1{
-    color:#1e3a8a;
+    font-size:3rem;
+    margin-bottom:15px;
 }
 
-.section{
-    background:white;
-    padding:20px;
-    margin-top:20px;
-    border-radius:10px;
-    box-shadow:0 0 10px rgba(0,0,0,0.1);
+h2{
+    margin-bottom:15px;
+}
+
+.subtitle{
+    color:#cbd5e1;
+    margin-bottom:30px;
+}
+
+.card{
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(10px);
+    padding:25px;
+    border-radius:20px;
+    width:90%;
+    max-width:1100px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.3);
 }
 
 .grid{
     display:grid;
     grid-template-columns:repeat(3,1fr);
-    gap:10px;
+    gap:15px;
+    margin-top:20px;
 }
 
 .grid img{
     width:100%;
     height:180px;
     object-fit:cover;
-    border-radius:10px;
-    cursor:pointer;
+    border-radius:15px;
     border:4px solid transparent;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.grid img:hover{
+    transform:scale(1.03);
 }
 
 .selected{
-    border:4px solid limegreen !important;
+    border:4px solid #22c55e !important;
 }
 
 button{
-    padding:10px 20px;
-    margin:5px;
+    padding:14px 30px;
+    border:none;
+    border-radius:12px;
+    background:#2563eb;
+    color:white;
+    font-size:16px;
     cursor:pointer;
+    margin:10px;
+}
+
+button:hover{
+    background:#1d4ed8;
 }
 
 .columns{
     display:flex;
     gap:20px;
+    width:100%;
+    margin-top:20px;
 }
 
 .column{
@@ -61,210 +113,355 @@ button{
 
 .column img{
     width:100%;
+    border-radius:12px;
     margin-bottom:8px;
-    border-radius:8px;
+    height:120px;
+    object-fit:cover;
 }
+
+.round{
+    font-size:24px;
+    color:#60a5fa;
+    margin-bottom:10px;
+}
+
+.success{
+    color:#22c55e;
+    font-size:36px;
+}
+
+.info{
+    line-height:2;
+    font-size:18px;
+}
+
+.small{
+    color:#cbd5e1;
+    margin-top:15px;
+}
+
 </style>
 </head>
-
 <body>
 
-<h1>CIPA</h1>
-<h3>Cognitive Image Preference Authentication</h3>
+<!-- HOME -->
 
-<div class="section">
+<div class="screen active" id="home">
 
-<h2>How It Works</h2>
+    <div class="card">
 
-<ol>
-<li>User registers on a secure computer.</li>
-<li>User selects one preferred image from 9 images.</li>
-<li>The image ID is stored securely.</li>
-<li>On an untrusted computer, the same 9 images are shuffled.</li>
-<li>User never clicks the secret image.</li>
-<li>User only indicates the COLUMN containing it.</li>
-<li>After three rounds, the system identifies the image.</li>
-</ol>
+        <h1>CIPA</h1>
+
+        <h3 class="subtitle">
+        Cognitive Image Preference Authentication
+        </h3>
+
+        <div class="info">
+
+            Step 1: User registers on a secure computer.<br>
+
+            Step 2: User selects one secret image from 9 images.<br>
+
+            Step 3: On an untrusted computer, all images are shuffled.<br>
+
+            Step 4: User never clicks the secret image directly.<br>
+
+            Step 5: Using a 9-card style procedure, the system identifies the secret image.<br>
+
+        </div>
+
+        <br>
+
+        <button onclick="showScreen('register')">
+            Start Registration
+        </button>
+
+    </div>
 
 </div>
 
-<div class="section">
+<!-- REGISTRATION -->
 
-<h2>Step 1 - Registration (Secure Computer)</h2>
+<div class="screen" id="register">
 
-<div id="registerGrid" class="grid"></div>
+    <div class="card">
 
-<p id="regMsg"></p>
+        <h2>Step 1 - Registration (Trusted Computer)</h2>
+
+        <p>Select your secret image.</p>
+
+        <div class="grid" id="registerGrid"></div>
+
+        <p id="regStatus" class="small"></p>
+
+        <button id="continueBtn"
+        style="display:none"
+        onclick="showScreen('authIntro')">
+
+        Proceed to Authentication
+
+        </button>
+
+    </div>
 
 </div>
 
-<div class="section">
+<!-- AUTH INTRO -->
 
-<h2>Step 2 - Authentication (Untrusted Computer)</h2>
+<div class="screen" id="authIntro">
 
-<button onclick="startAuth()">Start Authentication</button>
+    <div class="card">
 
-<div id="authArea"></div>
+        <h2>Step 2 - Authentication (Untrusted Computer)</h2>
 
-<p id="authMsg"></p>
+        <br>
+
+        <p class="info">
+
+        Think about your selected image.<br>
+
+        Do NOT click the image itself.<br><br>
+
+        In each round, simply select the column
+        that contains your secret image.
+
+        </p>
+
+        <br>
+
+        <button onclick="startAuthentication()">
+            Start Authentication
+        </button>
+
+    </div>
+
+</div>
+
+<!-- AUTH -->
+
+<div class="screen" id="auth">
+
+    <div class="card">
+
+        <div class="round" id="roundInfo">Round 1</div>
+
+        <p>
+        Which column contains your secret image?
+        </p>
+
+        <div id="authArea"></div>
+
+    </div>
+
+</div>
+
+<!-- RESULT -->
+
+<div class="screen" id="result">
+
+    <div class="card">
+
+        <h2 id="resultMessage"></h2>
+
+        <br>
+
+        <button onclick="location.reload()">
+            Restart Demo
+        </button>
+
+    </div>
 
 </div>
 
 <script>
 
 const images = [
-"https://picsum.photos/id/1015/300/200",
-"https://picsum.photos/id/1025/300/200",
-"https://picsum.photos/id/1035/300/200",
-"https://picsum.photos/id/1045/300/200",
-"https://picsum.photos/id/1055/300/200",
-"https://picsum.photos/id/1065/300/200",
-"https://picsum.photos/id/1075/300/200",
-"https://picsum.photos/id/1085/300/200",
-"https://picsum.photos/id/1095/300/200"
+
+"images/img1.jpg",
+"images/img2.jpg",
+"images/img3.jpg",
+"images/img4.jpg",
+"images/img5.jpg",
+"images/img6.jpg",
+"images/img7.jpg",
+"images/img8.jpg",
+"images/img9.jpg"
+
 ];
 
-let selectedImage = null;
+function showScreen(id){
 
-const registerGrid = document.getElementById("registerGrid");
+    document
+    .querySelectorAll(".screen")
+    .forEach(s=>s.classList.remove("active"));
+
+    document
+    .getElementById(id)
+    .classList.add("active");
+}
+
+/* Registration */
+
+let secretImage=null;
+
+const grid=document.getElementById("registerGrid");
 
 images.forEach((img,index)=>{
 
     let image=document.createElement("img");
+
     image.src=img;
 
     image.onclick=()=>{
-        document.querySelectorAll("#registerGrid img")
+
+        document
+        .querySelectorAll("#registerGrid img")
         .forEach(i=>i.classList.remove("selected"));
 
         image.classList.add("selected");
 
-        selectedImage=index;
+        secretImage=index;
 
-        localStorage.setItem("cipa_secret",index);
+        localStorage.setItem(
+            "cipa_secret",
+            index
+        );
 
-        document.getElementById("regMsg").innerHTML=
-        "Registered Image: "+(index+1);
+        document.getElementById("regStatus")
+        .innerHTML=
+        "Selected Secret Image : Image "+(index+1);
+
+        document.getElementById("continueBtn")
+        .style.display="inline-block";
     };
 
-    registerGrid.appendChild(image);
+    grid.appendChild(image);
 });
+
+/* Authentication */
 
 let currentOrder=[];
 let round=1;
 
 function shuffle(arr){
 
-for(let i=arr.length-1;i>0;i--){
+    for(let i=arr.length-1;i>0;i--){
 
-let j=Math.floor(Math.random()*(i+1));
+        const j=Math.floor(
+        Math.random()*(i+1));
 
-[arr[i],arr[j]]=[arr[j],arr[i]];
+        [arr[i],arr[j]]=
+        [arr[j],arr[i]];
+    }
+
+    return arr;
 }
 
-return arr;
-}
+function startAuthentication(){
 
-function startAuth(){
+    round=1;
 
-round=1;
+    currentOrder=
+    shuffle([0,1,2,3,4,5,6,7,8]);
 
-currentOrder=[0,1,2,3,4,5,6,7,8];
+    showScreen("auth");
 
-renderRound();
+    renderRound();
 }
 
 function renderRound(){
 
-let area=document.getElementById("authArea");
+    document
+    .getElementById("roundInfo")
+    .innerHTML=
+    "Round "+round;
 
-area.innerHTML="";
+    let columns=[[],[],[]];
 
-let columns=[[],[],[]];
+    currentOrder.forEach(
+    (value,index)=>{
+     columns[index%3].push(value);
+    });
 
-currentOrder.forEach((img,i)=>{
-columns[i%3].push(img);
-});
+    let area=document
+    .getElementById("authArea");
 
-let wrapper=document.createElement("div");
-wrapper.className="columns";
+    let html=
+    "<div class='columns'>";
 
-columns.forEach((col,colIndex)=>{
+    columns.forEach((col,idx)=>{
 
-let c=document.createElement("div");
-c.className="column";
+        html+=`
+        <div class="column">
 
-let title=document.createElement("button");
-title.innerText="Column "+(colIndex+1);
+        <button
+        onclick="chooseColumn(${idx})">
+        Column ${idx+1}
+        </button>
+        `;
 
-title.onclick=()=>{
-nextRound(colIndex);
-};
+        col.forEach(img=>{
 
-c.appendChild(title);
+            html+=`
+            <img src="${images[img]}">
+            `;
+        });
 
-col.forEach(imgIndex=>{
+        html+=`</div>`;
+    });
 
-let image=document.createElement("img");
-image.src=images[imgIndex];
+    html+="</div>";
 
-c.appendChild(image);
-
-});
-
-wrapper.appendChild(c);
-
-});
-
-area.appendChild(wrapper);
-
-document.getElementById("authMsg").innerHTML=
-"Round "+round+" : Select the column containing your secret image.";
+    area.innerHTML=html;
 }
 
-function nextRound(chosenColumn){
+function chooseColumn(chosen){
 
-let columns=[[],[],[]];
+    let columns=[[],[],[]];
 
-currentOrder.forEach((img,i)=>{
-columns[i%3].push(img);
-});
+    currentOrder.forEach(
+    (value,index)=>{
+     columns[index%3].push(value);
+    });
 
-let selectedCol=columns[chosenColumn];
+    currentOrder=[
+        ...columns[(chosen+1)%3],
+        ...columns[chosen],
+        ...columns[(chosen+2)%3]
+    ];
 
-let newOrder=[];
+    round++;
 
-newOrder.push(...columns[(chosenColumn+1)%3]);
-newOrder.push(...selectedCol);
-newOrder.push(...columns[(chosenColumn+2)%3]);
+    if(round<=3){
 
-currentOrder=newOrder;
+        renderRound();
 
-round++;
+    }
+    else{
 
-if(round<=3){
+        let identified=currentOrder[4];
 
-renderRound();
+        let actual=parseInt(
+        localStorage.getItem(
+        "cipa_secret"));
 
-}else{
+        showScreen("result");
 
-let identified=currentOrder[4];
+        if(identified===actual){
 
-let actual=parseInt(
-localStorage.getItem("cipa_secret")
-);
+            document
+            .getElementById("resultMessage")
+            .innerHTML=
+            "✅ Authentication Successful";
+        }
+        else{
 
-if(identified===actual){
-
-document.getElementById("authMsg").innerHTML=
-"✅ Authentication Successful";
-
-}else{
-
-document.getElementById("authMsg").innerHTML=
-"❌ Authentication Failed";
-}
-}
+            document
+            .getElementById("resultMessage")
+            .innerHTML=
+            "❌ Authentication Failed";
+        }
+    }
 }
 
 </script>
