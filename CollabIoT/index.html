@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>CollabIoT Studio</title>
+    <style>
+      body {
+        font-family: Arial;
+        margin: 0;
+        background: #eef2f7
+      }
+
+      header {
+        background: #1565c0;
+        color: #fff;
+        padding: 12px;
+        text-align: center
+      }
+
+      .wrap {
+        max-width: 1100px;
+        margin: auto;
+        padding: 15px
+      }
+
+      .card {
+        background: #fff;
+        border-radius: 10px;
+        padding: 15px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, .15)
+      }
+
+      .step {
+        display: none
+      }
+
+      .active {
+        display: block
+      }
+
+      input,
+      textarea,
+      select {
+        width: 100%;
+        padding: 8px;
+        margin: 5px 0;
+        box-sizing: border-box
+      }
+
+      button {
+        background: #1565c0;
+        color: #fff;
+        border: none;
+        padding: 10px 14px;
+        border-radius: 5px;
+        margin: 4px
+      }
+
+      .progress {
+        height: 18px;
+        background: #ddd;
+        border-radius: 9px;
+        overflow: hidden
+      }
+
+      .bar {
+        height: 100%;
+        background: #4caf50;
+        width: 20%
+      }
+
+      .device {
+        border: 1px solid #ccc;
+        padding: 8px;
+        margin: 6px;
+        border-radius: 6px
+      }
+
+      .map {
+        background: #f7f9fc;
+        padding: 8px;
+        margin: 4px;
+        border-radius: 6px
+      }
+
+      .node {
+        display: inline-block;
+        padding: 10px 14px;
+        background: #2196f3;
+        color: #fff;
+        border-radius: 20px;
+        margin: 10px
+      }
+
+      .flow {
+        font-size: 28px;
+        color: #ff5722
+      }
+
+      .log {
+        height: 220px;
+        overflow: auto;
+        background: #111;
+        color: #0f0;
+        padding: 10px;
+        font-family: monospace
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h2>CollabIoT Studio - Collaborative IoT Ecosystem Wizard</h2>
+    </header>
+    <div class="wrap">
+      <div class="progress">
+        <div id="bar" class="bar"></div>
+      </div>
+      <div class="card">
+        <div id="s1" class="step active">
+          <h3>Step 1 - Introduction</h3>
+          <p>Create devices, define collaborations and simulate data flow.</p>
+          <button onclick="nextStep()">Start</button>
+        </div>
+        <div id="s2" class="step">
+          <h3>Step 2 - Register Devices</h3>
+          <input id="dname" placeholder="Device Name">
+          <input id="dtype" placeholder="Device Type">
+          <textarea id="dfeat" placeholder="Features"></textarea>
+          <textarea id="dfunc" placeholder="Functionalities"></textarea>
+          <button onclick="addDevice()">Add Device</button>
+          <div id="devlist"></div>
+          <button onclick="prevStep()">Back</button>
+          <button onclick="nextStep()">Next</button>
+        </div>
+        <div id="s3" class="step">
+          <h3>Step 3 - Collaboration Mapping</h3>
+          <select id="src"></select>
+          <select id="dst"></select>
+          <input id="dataitem" placeholder="Data Shared (Temperature, Alert, etc.)">
+          <button onclick="addMap()">Add Collaboration</button>
+          <div id="maplist"></div>
+          <button onclick="prevStep()">Back</button>
+          <button onclick="nextStep()">Next</button>
+        </div>
+        <div id="s4" class="step">
+          <h3>Step 4 - Ecosystem View</h3>
+          <div id="topology"></div>
+          <button onclick="prevStep()">Back</button>
+          <button onclick="nextStep()">Next</button>
+        </div>
+        <div id="s5" class="step">
+          <h3>Step 5 - Collaboration Simulation</h3>
+          <button onclick="runSimulation()">Run Data Flow</button>
+          <div id="simulation"></div>
+          <div id="log" class="log"></div>
+          <button onclick="prevStep()">Back</button>
+        </div>
+      </div>
+    </div>
+    <script>
+      let step = 1;
+      const getD = () => JSON.parse(localStorage.getItem('ci_devices') || '[]');
+      const getM = () => JSON.parse(localStorage.getItem('ci_maps') || '[]');
+      const setD = v => localStorage.setItem('ci_devices', JSON.stringify(v));
+      const setM = v => localStorage.setItem('ci_maps', JSON.stringify(v));
+
+      function updateBar() {
+        document.getElementById('bar').style.width = (step * 20) + '%'
+      }
+
+      function nextStep() {
+        if (step < 5) {
+          g('s' + step).classList.remove('active');
+          step++;
+          g('s' + step).classList.add('active');
+          render();
+          updateBar();
+        }
+      }
+
+      function prevStep() {
+        if (step > 1) {
+          g('s' + step).classList.remove('active');
+          step--;
+          g('s' + step).classList.add('active');
+          updateBar();
+        }
+      }
+
+      function g(x) {
+        return document.getElementById(x)
+      }
+
+      function addDevice() {
+        let n = g('dname').value.trim();
+        if (!n) return alert('Enter device name');
+        let d = getD();
+        d.push({
+          name: n,
+          type: g('dtype').value,
+          feat: g('dfeat').value,
+          func: g('dfunc').value
+        });
+        setD(d);
+        g('dname').value = '';
+        g('dtype').value = '';
+        g('dfeat').value = '';
+        g('dfunc').value = '';
+        render();
+      }
+
+      function delDev(i) {
+        let d = getD();
+        d.splice(i, 1);
+        setD(d);
+        render();
+      }
+
+      function addMap() {
+        let m = getM();
+        m.push({
+          src: g('src').value,
+          dst: g('dst').value,
+          data: g('dataitem').value
+        });
+        setM(m);
+        g('dataitem').value = '';
+        render();
+      }
+
+      function render() {
+        let d = getD(),
+          m = getM();
+        g('devlist').innerHTML = d.map((x, i) => `
+									<div class=device>
+										<b>${x.name}</b> (${x.type})
+										<br>
+											<button onclick='delDev(${i})'>Delete</button>
+										</div>`).join('') || 'No devices';
+        let opts = d.map(x => `
+										<option>${x.name}</option>`).join('');
+        if (g('src')) g('src').innerHTML = opts;
+        if (g('dst')) g('dst').innerHTML = opts;
+        g('maplist').innerHTML = m.map(x => `
+										<div class=map>${x.src} ➜ ${x.dst} 
+											<b>[${x.data}]</b>
+										</div>`).join('') || 'No collaborations';
+        g('topology').innerHTML = m.map(x => `
+										<div>
+											<span class=node>${x.src}</span> ➜ 
+											<span class=node>${x.dst}</span> (${x.data})
+										</div>`).join('') || 'Create mappings first';
+      }
+      async function runSimulation() {
+        let maps = getM();
+        let sim = g('simulation');
+        let log = g('log');
+        sim.innerHTML = '';
+        log.innerHTML = '';
+        if (!maps.length) {
+          log.innerHTML = 'No collaborations defined';
+          return;
+        }
+        for (let i = 0; i < maps.length; i++) {
+          let m = maps[i];
+          sim.innerHTML = `
+											<div class=node>${m.src}</div>
+											<span class=flow>● ➜ ➜ ➜</span>
+											<div class=node>${m.dst}</div>
+											<h4>${m.data}</h4>`;
+          log.innerHTML += `['+new Date().toLocaleTimeString()+'] ${m.src} generated ${m.data}
+											<br>`;
+          await new Promise(r => setTimeout(r, 1200));
+          log.innerHTML += `['+new Date().toLocaleTimeString()+'] ${m.data} transferred to ${m.dst}
+												<br>`;
+          await new Promise(r => setTimeout(r, 1200));
+          log.innerHTML += `['+new Date().toLocaleTimeString()+'] ${m.dst} processed ${m.data}
+													<br>
+														<br>`;
+        }
+      }
+      render();
+      updateBar();
+    </script>
+  </body>
+</html>
